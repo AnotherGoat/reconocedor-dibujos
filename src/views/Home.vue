@@ -1,5 +1,5 @@
 <template>
-    <MainCard mensaje="Dibuja un componente de interfaz gráfica"/>
+    <MainCard mensaje="Dibuja un componente de interfaz gráfica" colorFondo="white"/>
 </template>
 
 <script>

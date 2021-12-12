@@ -2,6 +2,8 @@
     <v-card class="mx-auto my-12" elevation="6" color="#eeeeee" outlined shaped>
         <h4>{{ this.mensaje }}</h4>
 
+        <Canvas width="224" height="224" backgroundColor="white"/>
+
         <v-card-actions>
             <v-btn color="green darken-2" text @click="predecir">
                 Predecir
@@ -14,9 +16,14 @@
 </template>
 
 <script>
+import Canvas from '@/components/Canvas.vue';
+
 export default {
     props: {
         mensaje: String
+    },
+    components: {
+        Canvas
     },
     methods: {
         predecir() {
