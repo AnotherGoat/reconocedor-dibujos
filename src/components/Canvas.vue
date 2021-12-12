@@ -1,5 +1,5 @@
 <template>
-    <canvas id="canvas" width="this.ancho" height="this.alto">
+    <canvas id="canvas" v-bind:width="this.ancho + 'px'" v-bind:height="this.alto + 'px'">
     </canvas>
 </template>
 
@@ -16,38 +16,20 @@ export default {
             dibujando: false
         }
     },
-    props: {
-        ancho: Number,
-        alto: Number,
-        colorFondo: String,
-        colorDibujo: String,
-        anchoLinea: String,
-        union: String
-    },
-    computed: {
-        cssProps() {
-            return {
-                "--background-color": this.colorFondo
-            }
-        }
-    },
+    props: ["ancho", "alto", "colorDibujo", "anchoLinea", "union"],
     mounted() {
         this.canvas = document.getElementById("canvas");
-        
-        console.log(this.dibujando);
-        console.log(this.clickX);
-        console.log(this.clickY);
 
-        $("#canvas").mousedown(this.mouseDown);
+        $("#canvas").mousedown(this.mousedown);
         $("#canvas").mousemove(this.mousemove);
         $("#canvas").mouseup(this.mouseup);
         $("#canvas").mouseleave(this.mouseleave);
     },
     methods: {
-        ctx: () => {
+        ctx: function() {
             return this.canvas.getContext("2d");
         },
-        mousedown: e => {
+        mousedown: function(e) {
             let rect = this.canvas.getBoundingClientRect();
             let mouseX = e.clientX- rect.left;
             let mouseY = e.clientY- rect.top;
@@ -55,59 +37,62 @@ export default {
             this.addUserGesture(mouseX, mouseY);
             this.drawOnCanvas();
         },
-        mousemove: e => {
+        mousemove: function(e) {
             if (this.dibujando) {
                 let rect = this.canvas.getBoundingClientRect();
-                let mouseX = e.clientX- rect.left;
-                let mouseY = e.clientY- rect.top;
+                let mouseX = e.clientX - rect.left;
+                let mouseY = e.clientY - rect.top;
                 this.addUserGesture(mouseX, mouseY, true);
                 this.drawOnCanvas();
             }
         },
-        mouseup: () => {
+        mouseup: function() {
             this.dibujando = false;
         },
-        mouseleave: () => {
+        mouseleave: function() {
             this.dibujando = false;
         },
-        addUserGesture: (x, y, dragging) => {
+        addUserGesture: function(x, y, dragging) {
             this.clickX.push(x);
             this.clickY.push(y);
             this.clickD.push(dragging);
         },
-        drawOnCanvas: () => {
-            this.canvas.clearRect(0, 0, this.ancho, this.alto);
+        drawOnCanvas: function() {
+            let ctx = this.ctx();
+            ctx.clearRect(0, 0, this.ancho, this.alto);
         
-            this.canvas.strokeStyle = this.colorDibujo;
-            this.canvas.lineJoin    = this.union;
-            this.canvas.lineWidth   = this.anchoLinea;
+            ctx.strokeStyle = this.colorDibujo;
+            ctx.lineJoin = this.union;
+            ctx.lineWidth = this.anchoLinea;
         
             for (let i = 0; i < this.clickX.length; i++) {
-                this.canvas.beginPath();
+                ctx.beginPath();
                 if (this.clickD[i] && i) {
-                    this.canvas.moveTo(this.clickX[i-1], this.clickY[i-1]);
+                    ctx.moveTo(this.clickX[i-1], this.clickY[i-1]);
                 } else {
-                    this.canvas.moveTo(this.clickX[i]-1, this.clickY[i]);
+                    ctx.moveTo(this.clickX[i]-1, this.clickY[i]);
                 }
-                this.canvas.lineTo(this.clickX[i], this.clickY[i]);
-                this.canvas.closePath();
-                this.canvas.stroke();
+                ctx.lineTo(this.clickX[i], this.clickY[i]);
+                ctx.closePath();
+                ctx.stroke();
             }
         },
-        limpiar: async () => {
-            this.canvas.clearRect(0, 0, this.ancho, this.alto);
+        limpiar: function() {
+            // Limpia el canvas
+            let ctx = this.ctx();
+            ctx.clearRect(0, 0, this.ancho, this.alto);
+            
             this.clickX = new Array();
             this.clickY = new Array();
             this.clickD = new Array();
-            //$(".prediction-text").empty();
-            //$("#result_box").addClass('d-none');
         }
     }
 }
 </script>
 
 <style>
-.canvas {
-    background-color: var(--background-color);
+#canvas {
+    border: 1px solid black;
+    background-color: white;
 }
 </style>

@@ -1,15 +1,18 @@
 <template>
     <v-card class="mx-auto my-12" elevation="6" color="#eeeeee" outlined shaped>
+        <br>
         <h4>{{ this.mensaje }}</h4>
+        <br>
 
-        <Canvas ancho="224" alto="224" colorFondo="white" colorDibujo="black"
-                anchoLinea=10, union="round"/>
+        <Canvas ancho=224 alto=224 colorDibujo="black"
+                anchoLinea=10, union="round" ref="canvas"/>
 
-        <v-card-actions>
+        <br>
+        <v-card-actions class="justify-center">
             <v-btn color="green darken-2" text @click="predecir">
                 Predecir
             </v-btn>
-            <v-btn color="green darken-2" text @click="limpiar">
+            <v-btn color="green darken-2" text @click="$refs.canvas.limpiar()">
                 Limpiar
             </v-btn>
         </v-card-actions>
