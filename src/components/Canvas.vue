@@ -24,6 +24,11 @@ export default {
         $("#canvas").mousemove(this.mousemove);
         $("#canvas").mouseup(this.mouseup);
         $("#canvas").mouseleave(this.mouseleave);
+
+        this.canvas.addEventListener("touchstart", this.touchstart, false);
+        this.canvas.addEventListener("touchmove", this.touchmove, false);
+        this.canvas.addEventListener("touchend", this.touchend, false);
+        this.canvas.addEventListener("touchleave", this.touchleave, false);
     },
     methods: {
         ctx: function() {
@@ -50,6 +55,48 @@ export default {
             this.dibujando = false;
         },
         mouseleave: function() {
+            this.dibujando = false;
+        },
+        touchstart: function (e) {
+            if (e.target == this.canvas) {
+                e.preventDefault();
+            }
+        
+            let rect = this.canvas.getBoundingClientRect();
+            let touch = e.touches[0];
+        
+            let mouseX = touch.clientX - rect.left;
+            let mouseY = touch.clientY - rect.top;
+        
+            this.dibujando = true;
+            this.addUserGesture(mouseX, mouseY);
+            this.drawOnCanvas();
+        },
+        touchmove: function(e) {
+            if (e.target == this.canvas) {
+                    e.preventDefault();
+            }
+            if (this.dibujando) {
+                var rect = this.canvas.getBoundingClientRect();
+                var touch = e.touches[0];
+        
+                var mouseX = touch.clientX - rect.left;
+                var mouseY = touch.clientY - rect.top;
+        
+                this.addUserGesture(mouseX, mouseY, true);
+                this.drawOnCanvas();
+            }
+        },
+        touchend: function(e) {
+            if (e.target == this.canvas) {
+                e.preventDefault();
+            }
+            this.dibujando = false;
+        },
+        touchleave: function(e) {
+            if (e.target == this.canvas) {
+                e.preventDefault();
+            }
             this.dibujando = false;
         },
         addUserGesture: function(x, y, dragging) {
