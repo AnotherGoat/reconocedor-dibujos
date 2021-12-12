@@ -2,7 +2,8 @@
     <v-card class="mx-auto my-12" elevation="6" color="#eeeeee" outlined shaped>
         <h4>{{ this.mensaje }}</h4>
 
-        <Canvas width="224" height="224" backgroundColor="white"/>
+        <Canvas ancho="224" alto="224" colorFondo="white" colorDibujo="black"
+                anchoLinea=10, union="round"/>
 
         <v-card-actions>
             <v-btn color="green darken-2" text @click="predecir">
