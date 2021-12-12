@@ -1,6 +1,6 @@
 <template>
-    <v-card class="mx-auto my-12" elevation="6" outlined shaped>
-        <p>Hola mundo</p>
+    <v-card class="mx-auto my-12" elevation="6" color="#eeeeee" outlined shaped>
+        <h4>{{ this.mensaje }}</h4>
 
         <v-card-actions>
             <v-btn color="green darken-2" text @click="predecir">
@@ -15,6 +15,9 @@
 
 <script>
 export default {
+    props: {
+        mensaje: String
+    },
     methods: {
         predecir() {
             console.log("Predecir")
@@ -31,5 +34,6 @@ export default {
     width: 80%;
     height: 80%;
     text-align: center;
+    color: gray;
 }
 </style>
