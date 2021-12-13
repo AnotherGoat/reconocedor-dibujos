@@ -3,11 +3,11 @@
         <br><h4>{{ this.mensaje }}</h4><br>
 
         <Canvas ancho=224 alto=224 colorDibujo="black"
-                anchoLinea=15, union="round" ref="canvas"/>
+                anchoLinea=7 union="round" ref="canvas"/>
 
         <br>
         <v-card-actions class="justify-center">
-            <v-btn color="green darken-2" text @click="predecir">
+            <v-btn color="green darken-2" text @click="predecir($refs.canvas.getImagen())">
                 Predecir
             </v-btn>
             <v-btn color="green darken-2" text @click="$refs.canvas.limpiar()">
@@ -24,7 +24,7 @@ import axios from 'axios';
 export default {
     data: () => {
         return {
-            BACKEND_URL: "https://reconocedor-dibujos-api.herokuapp.com"
+            BACKEND_URL: "https://reconocedor-dibujos.herokuapp.com"
         }
     },
     props: {
@@ -33,18 +33,13 @@ export default {
     components: {
         Canvas
     },
-    mounted() {
-        this.loadModel();
-    },
     methods: {
-        predecir() {
-            this.enviarImagen(this.BACKEND_URL + "/predecir", this.$refs.canvas.getImagen());
+        predecir(dibujo) {
+            this.enviarImagen(this.BACKEND_URL + "/predict", {"uri": dibujo});
+            console.log({"dibujo": dibujo});
         },
-        enviarImagen(url, imagen) {
-            let formData = new FormData();
-            formData.append("imagen", imagen);
-
-            axios.post(url, formData)
+        async enviarImagen(url, imagen) {
+            await axios.post(url, imagen)
                 .then(response => {
                     alert(response.data);
             })

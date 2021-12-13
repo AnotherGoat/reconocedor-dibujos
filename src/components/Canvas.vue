@@ -135,7 +135,7 @@ export default {
         },
         // Devuelve el canvas como una imagen
         getImagen: function() {
-            return this.canvas.toBlob(null, "image/png", 1);
+            return this.canvas.toDataURL("image/png");
         }
     }
 }
