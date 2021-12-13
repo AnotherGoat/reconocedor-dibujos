@@ -19,12 +19,12 @@
 
 <script>
 import Canvas from '@/components/Canvas.vue';
-import * as tf from '@tensorflow/tfjs';
+import axios from 'axios';
 
 export default {
     data: () => {
         return {
-            modelo: null
+            BACKEND_URL: "https://reconocedor-dibujos-api.herokuapp.com"
         }
     },
     props: {
@@ -38,14 +38,18 @@ export default {
     },
     methods: {
         predecir() {
-            console.log("Predecir")
+            this.enviarImagen(this.BACKEND_URL + "/predecir", this.$refs.canvas.getImagen());
         },
-        loadModel: async function() {
-            // Vacía el modelo
-            this.modelo = undefined; 
-            // load the model using a HTTPS request (where you have stored your model files)
-            this.modelo = await tf.loadLayersModel("@/assets/model.json").catch(error => {
-                console.log(error);
+        enviarImagen(url, imagen) {
+            let formData = new FormData();
+            formData.append("imagen", imagen);
+
+            axios.post(url, formData)
+                .then(response => {
+                    alert(response.data);
+            })
+                .catch(error => {
+                    console.log(error);
             });
         }
     }

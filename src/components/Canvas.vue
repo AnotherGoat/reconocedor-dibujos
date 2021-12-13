@@ -132,6 +132,10 @@ export default {
             this.clickX = new Array();
             this.clickY = new Array();
             this.clickD = new Array();
+        },
+        // Devuelve el canvas como una imagen
+        getImagen: function() {
+            return this.canvas.toBlob(null, "image/png", 1);
         }
     }
 }
