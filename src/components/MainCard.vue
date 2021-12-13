@@ -24,7 +24,7 @@ import axios from 'axios';
 export default {
     data: () => {
         return {
-            BACKEND_URL: "https://reconocedor-dibujos.herokuapp.com"
+            BACKEND_URL: "https://reconocedor-dibujos-api.herokuapp.com"
         }
     },
     props: {
