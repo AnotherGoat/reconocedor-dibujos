@@ -3,7 +3,7 @@
         <br><h4>{{ this.mensaje }}</h4><br>
 
         <Canvas ancho=224 alto=224 colorDibujo="black"
-                anchoLinea=10, union="round" ref="canvas"/>
+                anchoLinea=15, union="round" ref="canvas"/>
 
         <br>
         <v-card-actions class="justify-center">
