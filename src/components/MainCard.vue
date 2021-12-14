@@ -3,7 +3,7 @@
         <br><h4>{{ this.mensaje }}</h4><br>
 
         <Canvas ancho=224 alto=224 colorDibujo="black"
-                anchoLinea=7 union="round" ref="canvas"/>
+                anchoLinea=5 union="round" ref="canvas"/>
 
         <br>
         <v-card-actions class="justify-center">
@@ -20,13 +20,9 @@
 <script>
 import Canvas from '@/components/Canvas.vue';
 import axios from 'axios';
+import { API_URL } from '@/common/config.js';
 
 export default {
-    data: () => {
-        return {
-            BACKEND_URL: "https://reconocedor-dibujos-api.herokuapp.com"
-        }
-    },
     props: {
         mensaje: String
     },
@@ -35,7 +31,7 @@ export default {
     },
     methods: {
         predecir(dibujo) {
-            this.enviarImagen(this.BACKEND_URL + "/predict", {"uri": dibujo});
+            this.enviarImagen(API_URL + "/predict", {"uri": dibujo});
             console.log({"dibujo": dibujo});
         },
         async enviarImagen(url, imagen) {
